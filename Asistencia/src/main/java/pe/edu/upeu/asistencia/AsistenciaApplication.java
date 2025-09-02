@@ -34,7 +34,7 @@ public class AsistenciaApplication extends Application {
 		builder.application().setWebApplicationType(WebApplicationType.NONE);
 		configurableApplicationContext = builder.run(getParameters().getRaw().toArray(new String[0]));
 
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/main_asistencia.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/maingui.fxml"));
 		fxmlLoader.setControllerFactory(configurableApplicationContext::getBean);
 		parent= fxmlLoader.load();
 	}
