@@ -15,7 +15,7 @@ public class ParticipanteServicioImp extends ParticipanteRepository implements P
 
     @Override
     public List<Participante> findAll() {
-        if(participantes.size()==1) {
+        if(participantes.isEmpty()) {
             return super.finAll();
         }
         return participantes;
