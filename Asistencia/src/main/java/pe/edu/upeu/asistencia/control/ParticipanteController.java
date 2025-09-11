@@ -37,7 +37,7 @@
         @Autowired
         ParticipanteServicioI ps;
         @FXML TextField txtDNI, txtNombres, txtApellidos;
-
+        int indexE =-1;
         @FXML
         public void initialize(){
             cbxCarrera.getItems().setAll(Carrera.values());
@@ -64,13 +64,11 @@
                     Button btnEliminar = new Button("Eliminar");
                         {
                             btnEditar.setOnAction((event)->{
-                                System.out.println("Editando participante");
+                                Participante participante = getTableView().getItems().get(getIndex());
+                                editarParticipante(participante, getIndex());
                             });
                             btnEliminar.setOnAction((event)->{
-                                System.out.println("Eliminando participante");
-                            });
-                            btnEliminar.setOnAction((event)->{
-                                eliminarParticipante(getIndex());
+                              eliminarParticipante(getIndex());
                             });
                         }
                     @Override
@@ -88,6 +86,14 @@
                     };
             opcionCol.setCellFactory(cellFactory);
         }
+        public void editarParticipante(Participante p, int index){
+            txtDNI.setText(p.getDni().getValue());
+            txtNombres.setText(p.getNombre().getValue());
+            txtApellidos.setText(p.getApellido().getValue());
+            cbxCarrera.getSelectionModel().select(p.getCarrera());
+            cbxTipoParticipante.getSelectionModel().select(p.getTipoParticipante());
+            indexE = index;
+        }
 
         public void listarParticipante(){
             dniCol.setCellValueFactory(cellData ->
@@ -102,7 +108,7 @@
                     new SimpleStringProperty(cellData.getValue().getTipoParticipante().name()));
             agregarAccionBotones();
 
-           Participante = FXCollections.observableArrayList(ps.findAll());
+            Participante = FXCollections.observableArrayList(ps.findAll());
             tableView.setItems(Participante);
         }
 
@@ -114,9 +120,25 @@
             participante.setApellido(new SimpleStringProperty(txtApellidos.getText()));
             participante.setCarrera(cbxCarrera.getValue());
             participante.setTipoParticipante(cbxTipoParticipante.getValue());
-            ps.save(participante);
+            if(indexE == -1){
+                ps.save(participante);
+            }else{
+                ps.update(participante, indexE);
+                indexE=-1;
+            }
+            limpiarFormulario();
             listarParticipante();
         }
+
+        public void limpiarFormulario(){
+            txtDNI.setText("");
+            txtNombres.setText("");
+            txtApellidos.setText("");
+            cbxCarrera.getSelectionModel().clearSelection();
+
+        }
+
+
 
         public void eliminarParticipante(int index){
             ps.delete(index);
