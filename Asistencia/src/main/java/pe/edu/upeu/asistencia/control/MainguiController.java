@@ -43,7 +43,7 @@ public class MainguiController {
 class MenuItemListener {
 
     Map<String, String[]> menuConfig =Map.of(
-            "menuItem1", new String[]{"/fxml/main_participante.fxml","Participantes","T"},
+            "menuItem1", new String[]{"/fxml/main_Participante.fxml","Participantes","T"},
             "menuItem2", new String[]{"/fxml/login.fxml","Salir","C"},
             "menuItem3", new String[]{"/fxml/main_asistencia.fxml","Asistencia","T"}
 
