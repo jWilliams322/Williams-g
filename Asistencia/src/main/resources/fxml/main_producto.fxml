@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- MÓDULO DE GESTIÓN DE ZAPATILLAS - ProductoController -->
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="pe.edu.upeu.asistencia.control.ProductoController" 
+      style="-fx-background-color: #f0f0f5;">
+   <children>
+      <!-- ENCABEZADO PRINCIPAL -->
+      <VBox style="-fx-background-color: #2c3e50; -fx-padding: 25;">
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" 
+                   style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 26;" 
+                   text="GESTION DE ZAPATILLAS"/>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" 
+                   style="-fx-text-fill: #ff6b35; -fx-font-weight: bold; -fx-font-size: 12;" 
+                   text="Control Completo de Inventario y Stock de Zapatos">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+
+      <!-- SECCIÓN DE OPERACIONES DEL SISTEMA -->
+      <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-width: 2; -fx-padding: 15;">
+         <VBox.margin>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+         <children>
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" 
+                   text="OPERACIONES DEL SISTEMA">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            
+            <HBox spacing="12.0">
+               <children>
+                  <VBox style="-fx-background-color: #e8f5e9; -fx-border-color: #27ae60; -fx-border-width: 2;">
+                     <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #27ae60; -fx-font-weight: bold;" text="CREAR"/>
+                        <Label style="-fx-text-fill: #555; -fx-font-size: 11;" text="Agregar nuevos zapatos" wrapText="true" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox style="-fx-background-color: #e3f2fd; -fx-border-color: #2c3e50; -fx-border-width: 2;">
+                     <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="LEER"/>
+                        <Label style="-fx-text-fill: #555; -fx-font-size: 11;" text="Ver inventario" wrapText="true" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox style="-fx-background-color: #fff3e0; -fx-border-color: #f39c12; -fx-border-width: 2;">
+                     <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #f39c12; -fx-font-weight: bold;" text="ACTUALIZAR"/>
+                        <Label style="-fx-text-fill: #555; -fx-font-size: 11;" text="Editar zapatillas" wrapText="true" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox style="-fx-background-color: #ffebee; -fx-border-color: #e74c3c; -fx-border-width: 2;">
+                     <padding>
+                        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #e74c3c; -fx-font-weight: bold;" text="ELIMINAR"/>
+                        <Label style="-fx-text-fill: #555; -fx-font-size: 11;" text="Quitar productos" wrapText="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+
+      <!-- SECCIÓN DE BÚSQUEDA Y FILTRO -->
+      <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-width: 2; -fx-padding: 15;">
+         <VBox.margin>
+            <Insets bottom="15.0" left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" 
+                   text="BÚSQUEDA Y FILTRO">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            
+            <HBox spacing="15.0">
+               <children>
+                  <!-- Agregar campo de búsqueda y filtro por categoría -->
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Buscar Zapatilla:" />
+                        <TextField fx:id="txtBuscar" onKeyReleased="#buscarProducto" 
+                                   promptText="Buscar por nombre o código..." style="-fx-padding: 10; -fx-font-size: 11;" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox>
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Filtrar por Tipo:" />
+                        <ComboBox fx:id="cmbFiltro" onAction="#filtrarPorCategoria" 
+                                  style="-fx-padding: 10; -fx-font-size: 11;" prefWidth="150.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+
+      <!-- SECCIÓN DE FORMULARIO DE REGISTRO -->
+      <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-width: 2; -fx-padding: 15;">
+         <VBox.margin>
+            <Insets bottom="15.0" left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" 
+                   text="FORMULARIO DE REGISTRO DE ZAPATILLA">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Label>
+            
+            <GridPane hgap="15.0" vgap="12.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Codigo Zapato:" />
+                  <TextField fx:id="txtCodigo" promptText="ZAP-001" style="-fx-padding: 10;" GridPane.columnIndex="1" />
+                  <Label style="-fx-font-weight: bold;" text="Modelo:" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtNombre" promptText="Nombre del modelo" style="-fx-padding: 10;" GridPane.columnIndex="3" />
+                  
+                  <Label style="-fx-font-weight: bold;" text="Descripcion:" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtDescripcion" promptText="Detalles de la zapatilla" style="-fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label style="-fx-font-weight: bold;" text="Marca:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtMarca" promptText="Nike, Adidas, etc." style="-fx-padding: 10;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  
+                  <Label style="-fx-font-weight: bold;" text="Talla:" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtTalla" promptText="36, 37, 38..." style="-fx-padding: 10;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label style="-fx-font-weight: bold;" text="Color:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtColor" promptText="Rojo, Azul, Negro..." style="-fx-padding: 10;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+
+            <!-- Fila adicional para Tipo, Precio, Stock y Costo -->
+            <GridPane hgap="15.0" vgap="12.0" style="-fx-padding: 0 0 15 0;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Tipo:" />
+                  <TextField fx:id="txtTipo" promptText="Deportivo, Casual, Formal..." style="-fx-padding: 10;" GridPane.columnIndex="1" />
+                  <Label style="-fx-font-weight: bold;" text="Precio:" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtPrecio" promptText="0.00" style="-fx-padding: 10;" GridPane.columnIndex="3" />
+               </children>
+            </GridPane>
+
+            <GridPane hgap="15.0" vgap="12.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" prefWidth="200.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Stock:" />
+                  <TextField fx:id="txtStock" promptText="0" style="-fx-padding: 10;" GridPane.columnIndex="1" />
+                  <Label style="-fx-font-weight: bold;" text="Costo:" GridPane.columnIndex="2" />
+                  <TextField fx:id="txtCosto" promptText="0.00" style="-fx-padding: 10;" GridPane.columnIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <HBox alignment="CENTER" spacing="12.0">
+         <VBox.margin>
+            <Insets bottom="15.0" left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <Button onAction="#crearProducto" 
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-font-size: 12;" 
+                    text="CREAR Y GUARDAR"/>
+            <Button onAction="#limpiarFormulario" 
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-font-size: 12;" 
+                    text="LIMPIAR"/>
+         </children>
+      </HBox>
+
+      <!-- TABLA DE INVENTARIO -->
+      <VBox style="-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-width: 2; -fx-padding: 15;" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets bottom="15.0" left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14;" 
+                   text="LISTADO DE INVENTARIO">
+               <VBox.margin>
+                  <Insets bottom="12.0" />
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="tableView" prefHeight="350.0" style="-fx-font-size: 11;" VBox.vgrow="ALWAYS"/>
+         </children>
+      </VBox>
+
+      <!-- PIE DE PÁGINA -->
+      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" 
+              style="-fx-text-fill: #666; -fx-font-size: 10;" 
+              text="Zapateria Pro - Gestion de Zapatillas 2025">
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+   </children>
+</VBox>

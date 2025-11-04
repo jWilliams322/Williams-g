@@ -1,19 +1,17 @@
 package pe.edu.upeu.asistencia.control;
 
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 
-import javax.naming.Context;
 import java.io.IOException;
 import java.util.Map;
 
@@ -22,13 +20,13 @@ import java.util.Map;
 public class MainguiController {
 
     @FXML
-    private MenuItem menuItem1, menuItem2, menuItem3;
+    private MenuItem menuItem1, menuItem2, menuItem3, menuItem4;
     @FXML
     private MenuBar menuBar;
 
     private ComboBox<String> comboBox=new ComboBox<>();
-    private CustomMenuItem customMenuEstilo= new CustomMenuItem(comboBox);
-    private Menu menuEstilo =  new Menu("Cambiar Estilo");
+    private CustomMenuItem customMenuEstilo=new CustomMenuItem(comboBox);
+    private Menu menuEstilo=new Menu("Theme");
     @FXML
     private TabPane tabPane;
     @FXML
@@ -36,86 +34,107 @@ public class MainguiController {
 
     @Autowired
     private ApplicationContext context;
+    
     @FXML
     public void initialize() {
-        comboBox.getItems().addAll("Estilo por defecto", "Estilo Oscuro"
-                , "Estilo Azul", "Estilo Verde", "Estilo Rosado");
-        comboBox.setOnAction(e->cambiarEstilo());
 
-        customMenuEstilo.setHideOnClick(false);
-        menuEstilo.getItems().addAll(customMenuEstilo);
-        menuBar.getMenus().addAll(menuEstilo);
-
-        MenuItemListener mil=new MenuItemListener();
-        menuItem1.setOnAction(mil::handle);
-        menuItem2.setOnAction(mil::handle);
-        menuItem3.setOnAction(mil::handle);
-
+        MenuItemListener miL=new MenuItemListener();
+        menuItem1.setOnAction(miL::handle);
+        menuItem2.setOnAction(miL::handle);
+        menuItem3.setOnAction(miL::handle);
+        menuItem4.setOnAction(miL::handle);
     }
 
-    @FXML
-    public void cambiarEstilo(){
-        String estiloSeleccionado=comboBox.getSelectionModel().getSelectedItem();
-        Scene scene=bp.getScene();
-        switch(estiloSeleccionado){
-            case "Estilo Oscuro":
-                scene.getStylesheets().add(getClass().getResource("/css/estilo-oscuro.css").toExternalForm()); break;
-            case "Estilo Azul":
-                scene.getStylesheets().add(getClass().getResource("/css/estilo-Azul.css").toExternalForm()); break;
-            case "Estilo Verde":
-                scene.getStylesheets().add(getClass().getResource("/css/estilo-Verde.css").toExternalForm()); break;
-            case "Estilo Rosado":
-                scene.getStylesheets().add(getClass().getResource("/css/estilo-Rosado.css").toExternalForm()); break;
-            default: scene.getStylesheets().clear(); break;
+    class MenuItemListener{
+        Map<String, String[]> menuConfig=Map.of(
+                            "menuItem1",new String[]{"/fxml/main_producto.fxml","Productos","T"},
+                            "menuItem2",new String[]{"/fxml/login.fxml","Salir","C"},
+                            "menuItem3",new String[]{"/fxml/main_cliente.fxml","Clientes","T"},
+                            "menuItem4",new String[]{"/fxml/main_venta.fxml","Ventas","T"}
+                                );
+
+        public void handle(ActionEvent e) {
+            String id= ( (MenuItem) e.getSource() ).getId();
+            if(menuConfig.containsKey(id)){
+                String[] mi=menuConfig.get(id);
+                if(mi[2].equals("C")){
+                    Platform.exit();
+                    System.exit(0);
+                }else{
+                    abrirArchivoFXML(mi[0],mi[1]);
+                }
+            }
         }
-    }
 
-class MenuItemListener {
+        public void abrirArchivoFXML(String filename, String tittle){
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(new ClassPathResource(filename).getURL());
+                loader.setControllerFactory(context::getBean);
+                Parent root = loader.load();
 
-    Map<String, String[]> menuConfig =Map.of(
-            "menuItem1", new String[]{"/fxml/main_Participante.fxml","Participantes","T"},
-            "menuItem2", new String[]{"/fxml/login.fxml","Salir","C"},
-            "menuItem3", new String[]{"/fxml/main_asistencia.fxml","Asistencia","T"}
-                 );
+                ScrollPane scrollPane = new ScrollPane(root);
+                scrollPane.setFitToWidth(true);
+                scrollPane.setFitToHeight(true);
+                Tab newTab = new  Tab(tittle, scrollPane);
+                tabPane.getTabs().clear();
+                tabPane.getTabs().add(newTab);
 
-    public void handle(ActionEvent e) {
-        String id= ((MenuItem)e.getSource()).getId();
-        if(menuConfig.containsKey(id)) {
-            String[] mi = menuConfig.get(id);
-            if (mi[2].equals("C")) {
-                Platform.exit();
-                System.exit(0);
-            } else {
-                abriArchivoFXML(mi[0], mi[1]);
+            }catch (IOException ex) {
+                System.err.println("❌ Error cargando FXML: " + ex.getMessage());
+                ex.printStackTrace();
+                showErrorAlert("No se pudo cargar el módulo " + tittle);
             }
         }
     }
 
-    public void abriArchivoFXML(String filename, String tittle) {
+    public void abrirArchivoFXML(String filename, String tittle){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(filename));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new ClassPathResource(filename).getURL());
             loader.setControllerFactory(context::getBean);
             Parent root = loader.load();
 
-            ScrollPane scrollPane = new ScrollPane (root);
+            ScrollPane scrollPane = new ScrollPane(root);
             scrollPane.setFitToWidth(true);
             scrollPane.setFitToHeight(true);
-            Tab newTab = new Tab(tittle, scrollPane);
+            Tab newTab = new  Tab(tittle, scrollPane);
             tabPane.getTabs().clear();
             tabPane.getTabs().add(newTab);
 
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        }catch (IOException ex) {
+            System.err.println("❌ Error cargando FXML: " + ex.getMessage());
+            ex.printStackTrace();
+            showErrorAlert("No se pudo cargar el módulo " + tittle);
         }
-
-
     }
-}
 
-    class MenuListener {
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al cargar módulo");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
-        public void handle(ActionEvent e) {
+    @FXML
+    public void salir() {
+        Platform.exit();
+        System.exit(0);
+    }
 
-        }
+    @FXML
+    public void abrirProductos() {
+        abrirArchivoFXML("/fxml/main_producto.fxml", "Gestión de Productos");
+    }
+
+    @FXML
+    public void abrirClientes() {
+        abrirArchivoFXML("/fxml/main_cliente.fxml", "Gestión de Clientes");
+    }
+
+    @FXML
+    public void abrirVentas() {
+        abrirArchivoFXML("/fxml/main_venta.fxml", "Gestión de Ventas");
     }
 }
